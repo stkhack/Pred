@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scrolling Numbers</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: white;
+      color: red;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .box {
+      width: 350px;
+      height: 500px;
+      border: 2px solid red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .static-label {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .static-label span {
+      width: 50%;
+      text-align: center;
+    }
+    .top-label {
+      top: 0;
+    }
+    .bottom-label {
+      bottom: 0;
+    }
+    .numbers {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: 0.3s;
+      width: 100%;
+    }
+    .numbers div {
+      font-size: 24px;
+      margin: 5px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+    }
+    .numbers div.middle {
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .numbers div.middle::before,
+    .numbers div.middle::after {
+      content: "---";
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .numbers div.middle::before {
+      left: 10px;
+    }
+    .numbers div.middle::after {
+      right: 10px;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="static-label top-label">
+      <span>Next</span>
+      <span>Next</span>
+    </div>
+    <div class="numbers" id="numbers"></div>
+    <div class="static-label bottom-label">
+      <span>Previous</span>
+      <span>Previous</span>
+    </div>
+  </div>
+  <button class="btn" onclick="location.href='https://stkhack.github.io/Begin/'">Back</button>
+
+  <script>
+    const numbersContainer = document.getElementById('numbers');
+    let numbers = ['1.21x', '21.03x', '1.45x', '1.29x', '3.42x', '2.55x', '4.10x', '1.47x', '4.30x', '3.16x', '1.16x'];
+
+    function renderNumbers() {
+      numbersContainer.innerHTML = '';
+      numbers.forEach((num, index) => {
+        const div = document.createElement('div');
+        div.textContent = num;
+        if (index === 5) div.classList.add('middle'); // Highlight middle one
+        numbersContainer.appendChild(div);
+      });
+    }
+
+    function scrollNumbers() {
+      numbers.unshift(numbers.pop()); // Scroll down effect
+      renderNumbers();
+    }
+
+    renderNumbers();
+    setInterval(scrollNumbers, 30000); // Every 3 seconds
+  </script>
+</body>
+</html>
